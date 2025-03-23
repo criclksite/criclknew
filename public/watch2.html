@@ -1,0 +1,54 @@
+<!-- public/watch.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Watch Live - Cricket Live</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Watch Live</h1>
+      <a href="/" class="back-button"><i class="fas fa-arrow-left"></i> Back to Home</a>
+    </header>
+    
+    <div class="player-container">
+      <!-- Iframe wrapper -->
+      <div class="iframe-wrapper">
+        <div id="loading-spinner">
+          <div class="spinner"></div>
+          <p>Loading Live Stream...</p>
+        </div>
+        <iframe 
+          id="playerIframe"
+          src="about:blank" 
+          frameborder="0" 
+          marginheight="0" 
+          marginwidth="0" 
+          height="520" 
+          width="640" 
+          scrolling="no"
+          allowfullscreen
+          sandbox="allow-scripts allow-same-origin allow-forms allow-presentation"
+        ></iframe>
+      </div>
+    </div>
+  </div>
+  <script src="watch.js"></script>
+  <script>
+    // Simple but effective URL obfuscation
+    (function() {
+      // Base64 encoded URL (simpler approach that will definitely work)
+      const encoded = "aHR0cHM6Ly9jZG4uY3JpY2hkcGxheXMucnUvZW1iZWQyLnBocD9pZD1zdGFyc3A=";
+      
+      // Decode and load with slight delay
+      setTimeout(function() {
+        document.getElementById('playerIframe').src = atob(encoded);
+      }, 200);
+    })();
+  </script>
+</body>
+</html>

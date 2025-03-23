@@ -1,0 +1,172 @@
+<!-- public/watch.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Watch Live - Cricket Live</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
+  <style>
+    .channels-container {
+      margin: 20px 0;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+    }
+    
+    .channel-button {
+      padding: 10px 15px;
+      background-color: #2c3e50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    
+    .channel-button:hover {
+      background-color: #3498db;
+    }
+    
+    .channel-button.active {
+      background-color: #e74c3c;
+    }
+    
+    .iframe-wrapper {
+      position: relative;
+      width: 640px;
+      height: 520px;
+      margin: 0 auto;
+      background-color: #000;
+    }
+    
+    #loading-spinner {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      background-color: rgba(0, 0, 0, 0.8);
+      z-index: 10;
+    }
+    
+    .spinner {
+      border: 5px solid #f3f3f3;
+      border-top: 5px solid #3498db;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      animation: spin 1s linear infinite;
+    }
+    
+    #loading-spinner p {
+      color: white;
+      margin-top: 15px;
+    }
+    
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    
+    /* Navigation buttons styling */
+    .nav-buttons {
+      display: flex;
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+    
+    .nav-button {
+      display: inline-flex;
+      align-items: center;
+      padding: 10px 15px;
+      background-color: #1e3a8a;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      text-decoration: none;
+      font-weight: 500;
+      transition: background-color 0.3s;
+    }
+    
+    .nav-button:hover {
+      background-color: #0d45de;
+    }
+    
+    .nav-button i {
+      margin-right: 8px;
+    }
+    
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+    
+    @media (max-width: 768px) {
+      header {
+        flex-direction: column;
+        gap: 15px;
+      }
+      
+      .nav-buttons {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>CricLk</h1>
+      <div class="nav-buttons">
+        <a href="/" class="nav-button"><i class="fas fa-arrow-left"></i> Back to Home</a>
+        <a href="/timetable" class="nav-button"><i class="fas fa-calendar-alt"></i> View Time Table</a>
+      </div>
+    </header>
+    
+    <div class="channels-container">
+      <button class="channel-button" data-src="https://cdn.crichdplays.ru/embed2.php?id=willow">Willow Cricket</button>
+      <button class="channel-button" data-src="https://cdn.crichdplays.ru/embed2.php?id=willowextra">Willow Xtra</button>
+      <button class="channel-button" data-src="https://cdn.crichdplays.ru/embed2.php?id=astrocric">Astro Cricket</button>
+      <button class="channel-button active" data-src="https://cdn.crichdplays.ru/embed2.php?id=starsp">Star Sports 1</button>
+      <button class="channel-button" data-src="https://cdn.crichdplays.ru/embed2.php?id=starsp2">Star Sports 2</button>
+      <button class="channel-button" data-src="https://cdn.crichdplays.ru/embed2.php?id=osncric">SuperSport Cricket</button>
+      <button class="channel-button" data-src="https://cdn.crichdplays.ru/embed2.php?id=skysp2">Sky Sports Cricket</button>
+    </div>
+    
+    <div class="player-container">
+      <!-- Iframe wrapper -->
+      <div class="iframe-wrapper">
+        <div id="loading-spinner">
+          <div class="spinner"></div>
+          <p>Loading Live Stream...</p>
+        </div>
+        <iframe 
+          id="playerIframe"
+          src="https://cdn.crichdplays.ru/embed2.php?id=starsp" 
+          frameborder="0" 
+          marginheight="0" 
+          marginwidth="0" 
+          height="520" 
+          width="640" 
+          scrolling="no"
+          allowfullscreen
+          sandbox="allow-scripts allow-same-origin allow-forms allow-presentation"
+        ></iframe>
+      </div>
+    </div>
+  </div>
+
+  <script src="watch.js"></script>
+</body>
+</html>

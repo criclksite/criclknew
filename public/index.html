@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cricket Live - Watch IPL 2025</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #0a0a2a 0%, #1a1a4a 100%);
+      color: white;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      min-height: 100vh;
+    }
+
+    header {
+      text-align: center;
+      padding: 20px 0;
+      width: 100%;
+    }
+
+    h1 {
+      font-size: 3.5rem;
+      margin-bottom: 10px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: #f8f8f8;
+      text-shadow: 0 0 10px rgba(255, 0, 0, 0.7), 0 0 20px rgba(0, 0, 255, 0.5);
+    }
+
+    header p {
+      font-size: 1.2rem;
+      color: #cccccc;
+      margin-bottom: 20px;
+    }
+
+    .hero-image {
+      width: 100%;
+      margin: 20px 0;
+      position: relative;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    }
+
+    .hero-image img {
+      width: 100%;
+      display: block;
+      height: auto;
+      border-radius: 15px;
+      transition: transform 0.3s ease;
+    }
+
+    .hero-image:hover img {
+      transform: scale(1.02);
+    }
+
+    .overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(0deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0) 50%);
+      border-radius: 15px;
+    }
+
+    .tata-ipl-logo {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      width: 80px;
+      height: auto;
+    }
+
+    .button-container {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin: 30px 0;
+      flex-wrap: wrap;
+      z-index: 2;
+    }
+
+    .main-button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 15px 30px;
+      font-size: 1.2rem;
+      font-weight: bold;
+      text-decoration: none;
+      border-radius: 50px;
+      transition: all 0.3s ease;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      min-width: 220px;
+    }
+
+    .main-button.primary {
+      background: linear-gradient(135deg, #ff3e3e 0%, #ff0000 100%);
+      color: white;
+      box-shadow: 0 5px 15px rgba(255, 0, 0, 0.4);
+    }
+
+    .main-button.secondary {
+      background: linear-gradient(135deg, #3e4eff 0%, #0011ff 100%);
+      color: white;
+      box-shadow: 0 5px 15px rgba(0, 17, 255, 0.4);
+    }
+
+    .main-button.primary:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(255, 0, 0, 0.6);
+    }
+
+    .main-button.secondary:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0, 17, 255, 0.6);
+    }
+
+    .main-button i {
+      font-size: 1.3rem;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      width: 100%;
+      color: #888;
+      font-size: 0.9rem;
+    }
+
+    .pulse {
+      animation: pulse 1.5s infinite;
+    }
+
+    @keyframes pulse {
+      0% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(1.05);
+      }
+      100% {
+        transform: scale(1);
+      }
+    }
+
+    .live-indicator {
+      display: inline-block;
+      margin-right: 8px;
+      height: 10px;
+      width: 10px;
+      background-color: red;
+      border-radius: 50%;
+      animation: blink 1s ease-in-out infinite;
+    }
+
+    @keyframes blink {
+      0% { opacity: 1; }
+      50% { opacity: 0.3; }
+      100% { opacity: 1; }
+    }
+
+    @media (max-width: 768px) {
+      h1 {
+        font-size: 2.5rem;
+      }
+
+      .main-button {
+        min-width: 180px;
+        padding: 12px 20px;
+        font-size: 1rem;
+      }
+
+      .button-container {
+        flex-direction: column;
+        gap: 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Cricket Live</h1>
+      <p>The ultimate destination for cricket fans in 2025</p>
+    </header>
+    
+    <div class="hero-image">
+      <img src="https://styxregion2cdn.azureedge.net/styxsports-public/banner/1742566032909-217497371.jpg" alt="IPL 2025 Teams">
+      <div class="overlay"></div>
+    </div>
+    
+    <div class="button-container">
+      <a href="/timetable" class="main-button secondary">
+        <i class="fas fa-calendar-alt"></i>
+        View Time Table
+      </a>
+      
+      <a href="/watch" class="main-button primary pulse">
+        <span class="live-indicator"></span>
+        <i class="fas fa-play-circle"></i>
+        Watch Live
+      </a>
+    </div>
+    
+    <footer>
+      <p>&copy; 2025 Cricket Live. All rights reserved. Not affiliated with BCCI or IPL.</p>
+    </footer>
+  </div>
+</body>
+</html>
