@@ -7,8 +7,72 @@
   <title>Watch Live - Cricket Live</title>
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
-  <script disable-devtool-auto src="https://cdn.jsdelivr.net/npm/disable-devtool@latest"></script>
   <style>
+    /* General Styles */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      background-color: #f4f4f4;
+      color: #333;
+    }
+    
+    .container {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 15px;
+    }
+    
+    /* Header Styles */
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+    
+    header h1 {
+      color: #1e3a8a;
+      font-size: 28px;
+    }
+    
+    /* Navigation Buttons */
+    .nav-buttons {
+      display: flex;
+      gap: 15px;
+      margin-bottom: 15px;
+    }
+    
+    .nav-button {
+      display: inline-flex;
+      align-items: center;
+      padding: 10px 15px;
+      background-color: #1e3a8a;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      text-decoration: none;
+      font-weight: 500;
+      transition: background-color 0.3s;
+    }
+    
+    .nav-button:hover {
+      background-color: #0d45de;
+    }
+    
+    .nav-button i {
+      margin-right: 8px;
+    }
+    
+    /* Channel Buttons */
     .channels-container {
       margin: 20px 0;
       display: flex;
@@ -25,6 +89,7 @@
       border-radius: 5px;
       cursor: pointer;
       transition: background-color 0.3s;
+      font-size: 14px;
     }
     
     .channel-button:hover {
@@ -35,26 +100,35 @@
       background-color: #e74c3c;
     }
     
+    /* Player Container */
+    .player-container {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      margin: 0 auto;
+    }
+    
+    /* Responsive iframe wrapper */
     .iframe-wrapper {
       position: relative;
       width: 100%;
       max-width: 640px;
       height: 0;
-      padding-bottom: 75%; /* 4:3 Aspect Ratio (height/width = 0.75) */
-      margin: 0 auto;
+      padding-bottom: 70%; /* Maintain 4:3 aspect ratio (520/640 = 0.8125 or about 81%) */
       background-color: #000;
       overflow: hidden;
     }
     
-    #playerIframe {
+    .iframe-wrapper iframe {
       position: absolute;
       top: 0;
       left: 0;
       width: 100%;
-      height: 100%;
-      object-fit: cover;
+      height: 75%;
+      border: none;
     }
     
+    /* Loading Spinner */
     #loading-spinner {
       position: absolute;
       top: 0;
@@ -81,6 +155,7 @@
     #loading-spinner p {
       color: white;
       margin-top: 15px;
+      font-size: 16px;
     }
     
     @keyframes spin {
@@ -88,110 +163,57 @@
       100% { transform: rotate(360deg); }
     }
     
-    /* Navigation buttons styling */
-    .nav-buttons {
-      display: flex;
-      gap: 15px;
-      margin-bottom: 20px;
-    }
-    
-    .nav-button {
-      display: inline-flex;
-      align-items: center;
-      padding: 10px 15px;
-      background-color: #1e3a8a;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      text-decoration: none;
-      font-weight: 500;
-      transition: background-color 0.3s;
-    }
-    
-    .nav-button:hover {
-      background-color: #0d45de;
-    }
-    
-    .nav-button i {
-      margin-right: 8px;
-    }
-    
-    header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 20px;
-      flex-wrap: wrap;
-    }
-    
-    .player-container {
-      margin: 0 auto;
-      max-width: 640px;
-      width: 100%;
-    }
-    
-    /* Full screen mode styles */
-    .fullscreen-mode .iframe-wrapper {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      max-width: 100%;
-      padding-bottom: 0;
-      z-index: 1000;
-    }
-    
-    .fullscreen-toggle {
-      position: absolute;
-      bottom: 10px;
-      right: 10px;
-      background: rgba(0, 0, 0, 0.7);
-      color: white;
-      border: none;
-      border-radius: 5px;
-      padding: 5px 10px;
-      z-index: 20;
-      cursor: pointer;
-    }
-    
+    /* Media Queries */
     @media (max-width: 768px) {
       header {
         flex-direction: column;
-        gap: 15px;
+        align-items: center;
+        text-align: center;
       }
       
       .nav-buttons {
+        flex-direction: row;
         width: 100%;
         justify-content: center;
+        flex-wrap: wrap;
       }
       
-      .channels-container {
-        gap: 5px;
-      }
-      
-      .channel-button {
-        font-size: 14px;
+      .nav-button {
+        font-size: 13px;
         padding: 8px 12px;
       }
       
-      /* Adjust aspect ratio for vertical mobile screens */
+      .channel-button {
+        font-size: 12px;
+        padding: 8px 10px;
+      }
+      
       .iframe-wrapper {
-        padding-bottom: 56.25%; /* 16:9 Aspect Ratio for mobile */
+        max-width: 100%;
       }
     }
     
-    /* Portrait orientation specific styles */
-    @media (max-width: 480px) and (orientation: portrait) {
-      .iframe-wrapper {
-        padding-bottom: 56.25%; /* 16:9 Aspect Ratio for mobile portrait */
+    @media (max-width: 480px) {
+      .channels-container {
+        gap: 6px;
       }
-    }
-    
-    /* Landscape orientation specific styles */
-    @media (max-width: 896px) and (orientation: landscape) {
-      .iframe-wrapper {
-        padding-bottom: 75%; /* 4:3 ratio for landscape mobile */
+      
+      .channel-button {
+        font-size: 11px;
+        padding: 6px 8px;
+      }
+      
+      header h1 {
+        font-size: 24px;
+      }
+      
+      #loading-spinner p {
+        font-size: 14px;
+      }
+      
+      .spinner {
+        width: 40px;
+        height: 40px;
       }
     }
   </style>
@@ -223,15 +245,10 @@
           <div class="spinner"></div>
           <p>Loading Live Stream...</p>
         </div>
-        <button id="fullscreen-toggle" class="fullscreen-toggle">
-          <i class="fas fa-expand"></i>
-        </button>
         <iframe 
           id="playerIframe"
           src=""
           frameborder="0" 
-          marginheight="0" 
-          marginwidth="0" 
           scrolling="no"
           allowfullscreen
           sandbox="allow-scripts allow-same-origin allow-forms allow-presentation"
@@ -239,7 +256,6 @@
       </div>
     </div>
   </div>
-
   <script>
     // Base64 encoded URL components
     const baseUrlEncoded = "aHR0cHM6Ly9jZG4uY3JpY2hkcGxheXMucnUvZW1iZWQyLnBocD9pZD0=";
@@ -253,8 +269,6 @@
     const channelButtons = document.querySelectorAll('.channel-button');
     const playerIframe = document.getElementById('playerIframe');
     const loadingSpinner = document.getElementById('loading-spinner');
-    const fullscreenToggle = document.getElementById('fullscreen-toggle');
-    const iframeWrapper = document.querySelector('.iframe-wrapper');
     
     // Function to load a channel
     function loadChannel(channelId) {
@@ -279,61 +293,8 @@
       // Hide spinner when iframe loads
       playerIframe.onload = function() {
         loadingSpinner.style.display = 'none';
-        
-        // Try to handle orientation for mobile
-        handleOrientation();
       };
     }
-    
-    // Fullscreen toggle functionality
-    let isFullscreen = false;
-    fullscreenToggle.addEventListener('click', function() {
-      isFullscreen = !isFullscreen;
-      
-      if (isFullscreen) {
-        document.body.classList.add('fullscreen-mode');
-        fullscreenToggle.innerHTML = '<i class="fas fa-compress"></i>';
-        
-        // Request fullscreen if supported
-        if (iframeWrapper.requestFullscreen) {
-          iframeWrapper.requestFullscreen();
-        } else if (iframeWrapper.mozRequestFullScreen) {
-          iframeWrapper.mozRequestFullScreen();
-        } else if (iframeWrapper.webkitRequestFullscreen) {
-          iframeWrapper.webkitRequestFullscreen();
-        } else if (iframeWrapper.msRequestFullscreen) {
-          iframeWrapper.msRequestFullscreen();
-        }
-      } else {
-        document.body.classList.remove('fullscreen-mode');
-        fullscreenToggle.innerHTML = '<i class="fas fa-expand"></i>';
-        
-        // Exit fullscreen if it's active
-        if (document.exitFullscreen) {
-          document.exitFullscreen();
-        } else if (document.mozCancelFullScreen) {
-          document.mozCancelFullScreen();
-        } else if (document.webkitExitFullscreen) {
-          document.webkitExitFullscreen();
-        } else if (document.msExitFullscreen) {
-          document.msExitFullscreen();
-        }
-      }
-    });
-    
-    // Handle device orientation changes
-    function handleOrientation() {
-      if (window.matchMedia("(orientation: portrait)").matches) {
-        // Portrait mode
-        iframeWrapper.style.paddingBottom = "56.25%"; // 16:9 aspect ratio
-      } else {
-        // Landscape mode
-        iframeWrapper.style.paddingBottom = "75%"; // 4:3 aspect ratio
-      }
-    }
-    
-    // Listen for orientation changes
-    window.addEventListener("orientationchange", handleOrientation);
     
     // Add click event to each button
     channelButtons.forEach(button => {
@@ -343,28 +304,9 @@
       });
     });
     
-    // Handle fullscreen change (for browser's native fullscreen)
-    document.addEventListener('fullscreenchange', handleFullscreenChange);
-    document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
-    document.addEventListener('mozfullscreenchange', handleFullscreenChange);
-    document.addEventListener('MSFullscreenChange', handleFullscreenChange);
-    
-    function handleFullscreenChange() {
-      if (!document.fullscreenElement && 
-          !document.webkitFullscreenElement && 
-          !document.mozFullScreenElement && 
-          !document.msFullscreenElement) {
-        // Exit fullscreen
-        isFullscreen = false;
-        document.body.classList.remove('fullscreen-mode');
-        fullscreenToggle.innerHTML = '<i class="fas fa-expand"></i>';
-      }
-    }
-    
-    // Initial setup
+    // Load the default channel (Star Sports 1)
     window.onload = function() {
       loadChannel('starsp');
-      handleOrientation();
     };
   </script>
 </body>
