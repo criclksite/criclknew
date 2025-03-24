@@ -2,7 +2,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Watch Live - Cricket Live</title>
@@ -137,13 +136,13 @@
     </header>
     
     <div class="channels-container">
-      <button class="channel-button" data-src="https://cdn.crichdplays.ru/embed2.php?id=willow">Willow Cricket</button>
-      <button class="channel-button" data-src="https://cdn.crichdplays.ru/embed2.php?id=willowextra">Willow Xtra</button>
-      <button class="channel-button" data-src="https://cdn.crichdplays.ru/embed2.php?id=astrocric">Astro Cricket</button>
-      <button class="channel-button active" data-src="https://cdn.crichdplays.ru/embed2.php?id=starsp">Star Sports 1</button>
-      <button class="channel-button" data-src="https://cdn.crichdplays.ru/embed2.php?id=starsp2">Star Sports 2</button>
-      <button class="channel-button" data-src="https://cdn.crichdplays.ru/embed2.php?id=osncric">SuperSport Cricket</button>
-      <button class="channel-button" data-src="https://cdn.crichdplays.ru/embed2.php?id=skysp2">Sky Sports Cricket</button>
+      <button class="channel-button" data-channel="willow">Willow Cricket</button>
+      <button class="channel-button" data-channel="willowextra">Willow Xtra</button>
+      <button class="channel-button" data-channel="astrocric">Astro Cricket</button>
+      <button class="channel-button active" data-channel="starsp">Star Sports 1</button>
+      <button class="channel-button" data-channel="starsp2">Star Sports 2</button>
+      <button class="channel-button" data-channel="osncric">SuperSport Cricket</button>
+      <button class="channel-button" data-channel="skysp2">Sky Sports Cricket</button>
     </div>
     
     <div class="player-container">
@@ -155,7 +154,7 @@
         </div>
         <iframe 
           id="playerIframe"
-          src="https://cdn.crichdplays.ru/embed2.php?id=starsp" 
+          src=""
           frameborder="0" 
           marginheight="0" 
           marginwidth="0" 
@@ -169,6 +168,58 @@
     </div>
   </div>
 
-  <script src="watch.js"></script>
+  <script>
+    // Base64 encoded URL components
+    const baseUrlEncoded = "aHR0cHM6Ly9jZG4uY3JpY2hkcGxheXMucnUvZW1iZWQyLnBocD9pZD0=";
+    
+    // Decode function
+    function decodeBase64(str) {
+      return atob(str);
+    }
+    
+    // Get channel buttons and iframe
+    const channelButtons = document.querySelectorAll('.channel-button');
+    const playerIframe = document.getElementById('playerIframe');
+    const loadingSpinner = document.getElementById('loading-spinner');
+    
+    // Function to load a channel
+    function loadChannel(channelId) {
+      // Show loading spinner
+      loadingSpinner.style.display = 'flex';
+      
+      // Construct the URL by decoding the base64 and adding the channel ID
+      const url = decodeBase64(baseUrlEncoded) + channelId;
+      
+      // Set the iframe src
+      playerIframe.src = url;
+      
+      // Update active button
+      channelButtons.forEach(button => {
+        if (button.getAttribute('data-channel') === channelId) {
+          button.classList.add('active');
+        } else {
+          button.classList.remove('active');
+        }
+      });
+      
+      // Hide spinner when iframe loads
+      playerIframe.onload = function() {
+        loadingSpinner.style.display = 'none';
+      };
+    }
+    
+    // Add click event to each button
+    channelButtons.forEach(button => {
+      button.addEventListener('click', function() {
+        const channelId = this.getAttribute('data-channel');
+        loadChannel(channelId);
+      });
+    });
+    
+    // Load the default channel (Star Sports 1)
+    window.onload = function() {
+      loadChannel('starsp');
+    };
+  </script>
 </body>
 </html>
