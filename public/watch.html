@@ -7,8 +7,6 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
  
   <style>
-
-
     body, html {
       height: 80vh;
       width: 90vw;
@@ -17,7 +15,6 @@
       color: white;
       font-family: Arial, sans-serif;
     }
-
     .container {
       height: 100%;
       width: 100%;
@@ -27,7 +24,6 @@
       flex-direction: column;
       overflow: hidden !important;
     }
-
     header {
       flex-shrink: 0;
       display: flex;
@@ -38,20 +34,59 @@
       padding: 10px 15px;
       border-radius: 5px;
     }
-
+    /* Banner Styles */
+    .ipl-banner, .headphones-banner, .experience-banner {
+      background-color: #e74c3c;
+      color: white;
+      text-align: center;
+      padding: 10px;
+      margin-bottom: 10px;
+      border-radius: 5px;
+      font-weight: bold;
+      font-size: 16px;
+      animation: pulse 2s infinite;
+    }
+    .headphones-banner {
+      background-color: #27ae60; /* Green for headphones banner */
+    }
+    .experience-banner {
+      background-color: #3498db; /* Blue for experience banner */
+    }
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
     .nav-buttons {
       display: flex;
       gap: 10px;
     }
-
     .nav-button {
       color: white;
       text-decoration: none;
       display: flex;
       align-items: center;
       gap: 5px;
+      padding: 8px 15px;
+      border-radius: 5px;
+      transition: background-color 0.3s, transform 0.1s;
+      text-transform: uppercase;
+      font-weight: bold;
     }
-
+    .nav-button.blue {
+      background-color: #2980b9; /* Dark blue */
+    }
+    .nav-button.red {
+      background-color: #c0392b; /* Dark red */
+    }
+    .nav-button.telegram {
+      background-color: #0088cc; /* Telegram blue */
+    }
+    .nav-button:hover {
+      transform: scale(1.05);
+    }
+    .nav-button:active {
+      transform: scale(0.95);
+    }
     .channels-container {
       flex-shrink: 0;
       margin: 0 0 10px 0;
@@ -64,11 +99,9 @@
       -ms-overflow-style: none;
       padding-bottom: 10px;
     }
-
     .channels-container::-webkit-scrollbar {
       display: none;
     }
-
     .player-container {
       flex-grow: 1;
       position: relative;
@@ -77,7 +110,6 @@
       overflow: hidden !important;
       background-color: #000;
     }
-
     .iframe-wrapper {
       position: absolute;
       top: 0;
@@ -87,35 +119,43 @@
       background-color: #000;
       overflow: hidden !important;
     }
-
     #playerIframe {
       width: 100%;
       height: 100%;
       border: none;
       object-fit: contain;
     }
-
     .channel-button {
       padding: 10px 15px;
-      background-color: #2c3e50;
       color: white;
       border: none;
       border-radius: 5px;
       cursor: pointer;
-      transition: background-color 0.3s;
+      transition: background-color 0.3s, transform 0.1s;
       font-size: 14px;
       flex-shrink: 0;
       white-space: nowrap;
+      text-transform: uppercase;
+      font-weight: bold;
+      outline: none;
+      background-color: #2980b9; /* Blue for all buttons */
     }
     
     .channel-button:hover {
-      background-color: #3498db;
+      background-color: #3498db; /* Lighter blue on hover */
+      transform: scale(1.05);
+    }
+    
+    .channel-button:active {
+      background-color: #2575b0;
+      transform: scale(0.95);
     }
     
     .channel-button.active {
-      background-color: #e74c3c;
+      background-color: #27ae60; /* Green for active state */
+      box-shadow: 0 3px 6px rgba(0,0,0,0.3);
     }
-
+    
     /* Loading Spinner */
     #loading-spinner {
       position: absolute;
@@ -149,7 +189,7 @@
       0% { transform: rotate(0deg); }
       100% { transform: rotate(360deg); }
     }
-
+    
     /* Responsive Adjustments */
     @media (max-width: 768px) {
       header {
@@ -164,11 +204,9 @@
         justify-content: center;
         flex-wrap: wrap;
       }
-
       .channels-container {
         gap: 5px;
       }
-
       .channel-button {
         font-size: 12px;
         padding: 8px 10px;
@@ -181,10 +219,17 @@
     <header>
       <h1>CricLK.com</h1>
       <div class="nav-buttons">
-        <a href="/" class="nav-button"><i class="fas fa-arrow-left"></i> Back to Home</a>
-        <a href="/timetable" class="nav-button"><i class="fas fa-calendar-alt"></i> View Time Table</a>
+        <a href="/" class="nav-button blue"><i class="fas fa-arrow-left"></i> Back to Home</a>
+        <a href="/timetable" class="nav-button red"><i class="fas fa-calendar-alt"></i> View Time Table</a>
+        <a href="https://t.me/+brkidE7mVbxhMGJl" target="_blank" class="nav-button telegram">
+          <i class="fab fa-telegram"></i> Join Our Telegram
+        </a>
       </div>
     </header>
+
+    <div class="ipl-banner">
+      IPL 2025 Free - No Ads - Enjoy
+    </div>
     
     <div class="channels-container">
       <button class="channel-button" data-channel="willow">Willow Cricket</button>
@@ -210,8 +255,11 @@
         ></iframe>
       </div>
     </div>
-  </div>
 
+    <div class="experience-banner">
+      Player එකෙහි Controlls වැඩ නැත්නම් Video එක මැද ඇති <i class="fas fa-times-circle"></i> ක්ලික් කර එය ඉවත් කරන්න.
+    </div>
+  </div>
   <script>
     // Base64 encoded URL components
     const baseUrlEncoded = "aHR0cHM6Ly9jZG4uY3JpY2hkcGxheXMucnUvZW1iZWQyLnBocD9pZD0=";
