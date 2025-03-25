@@ -7,155 +7,132 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
  
   <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      touch-action: manipulation; /* Improve touch responsiveness */
+    }
+
     body, html {
-      height: 80vh;
-      width: 90vw;
-      overflow: hidden !important;
+      height: 100vh;
+      width: 100vw;
+      overflow: hidden;
       background-color: #121212;
       color: white;
-      font-family: Arial, sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      overscroll-behavior: none; /* Prevent pull-to-refresh */
     }
+
     .container {
       height: 100%;
       width: 100%;
-      margin: 0;
-      padding: 15px;
       display: flex;
       flex-direction: column;
-      overflow: hidden !important;
+      overflow: hidden;
+      padding: 10px;
     }
+
     header {
-      flex-shrink: 0;
       display: flex;
-      justify-content: space-between;
+      flex-direction: column;
       align-items: center;
+      gap: 10px;
       margin-bottom: 10px;
       background-color: #1e1e1e;
-      padding: 10px 15px;
-      border-radius: 5px;
-    }
-    /* Banner Styles */
-    .ipl-banner, .headphones-banner, .experience-banner {
-      background-color: #e74c3c;
-      color: white;
-      text-align: center;
       padding: 10px;
-      margin-bottom: 10px;
       border-radius: 5px;
-      font-weight: bold;
-      font-size: 16px;
-      animation: pulse 2s infinite;
     }
-    .headphones-banner {
-      background-color: #27ae60; /* Green for headphones banner */
-    }
-    .experience-banner {
-      background-color: #3498db; /* Blue for experience banner */
-    }
-    @keyframes pulse {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.05); }
-    }
+
     .nav-buttons {
       display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
       gap: 10px;
+      width: 100%;
     }
+
     .nav-button {
+      flex: 1;
+      min-width: 100px;
+      text-align: center;
       color: white;
       text-decoration: none;
       display: flex;
       align-items: center;
+      justify-content: center;
       gap: 5px;
-      padding: 8px 15px;
+      padding: 10px;
       border-radius: 5px;
-      transition: background-color 0.3s, transform 0.1s;
+      transition: all 0.2s ease;
       text-transform: uppercase;
       font-weight: bold;
+      font-size: 0.9rem;
     }
-    .nav-button.blue {
-      background-color: #2980b9; /* Dark blue */
-    }
-    .nav-button.red {
-      background-color: #c0392b; /* Dark red */
-    }
-    .nav-button.telegram {
-      background-color: #0088cc; /* Telegram blue */
-    }
-    .nav-button:hover {
-      transform: scale(1.05);
-    }
-    .nav-button:active {
-      transform: scale(0.95);
-    }
+
     .channels-container {
-      flex-shrink: 0;
-      margin: 0 0 10px 0;
       display: flex;
-      flex-wrap: nowrap;
-      gap: 10px;
-      justify-content: center;
       overflow-x: auto;
+      gap: 10px;
+      padding: 10px 0;
+      -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
       scrollbar-width: none;
       -ms-overflow-style: none;
-      padding-bottom: 10px;
     }
+
     .channels-container::-webkit-scrollbar {
       display: none;
     }
+
+    .channel-button {
+      flex-shrink: 0;
+      padding: 10px 15px;
+      font-size: 0.8rem;
+      border: none;
+      border-radius: 5px;
+      color: white;
+      background-color: #2980b9;
+      text-transform: uppercase;
+      transition: all 0.2s ease;
+    }
+
+    .channel-button.active {
+      background-color: #27ae60;
+    }
+
     .player-container {
       flex-grow: 1;
       position: relative;
       width: 100%;
-      height: 100%;
-      overflow: hidden !important;
       background-color: #000;
+      margin: 10px 0;
     }
-    .iframe-wrapper {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: #000;
-      overflow: hidden !important;
-    }
+
     #playerIframe {
       width: 100%;
       height: 100%;
       border: none;
       object-fit: contain;
     }
-    .channel-button {
-      padding: 10px 15px;
-      color: white;
-      border: none;
+
+    .banner {
+      text-align: center;
+      padding: 10px;
+      margin: 5px 0;
       border-radius: 5px;
-      cursor: pointer;
-      transition: background-color 0.3s, transform 0.1s;
-      font-size: 14px;
-      flex-shrink: 0;
-      white-space: nowrap;
-      text-transform: uppercase;
       font-weight: bold;
-      outline: none;
-      background-color: #2980b9; /* Blue for all buttons */
+      font-size: 0.9rem;
+      animation: pulse 2s infinite;
     }
-    
-    .channel-button:hover {
-      background-color: #3498db; /* Lighter blue on hover */
-      transform: scale(1.05);
+
+    .ipl-banner { background-color: #e74c3c; }
+    .experience-banner { background-color: #3498db; }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
     }
-    
-    .channel-button:active {
-      background-color: #2575b0;
-      transform: scale(0.95);
-    }
-    
-    .channel-button.active {
-      background-color: #27ae60; /* Green for active state */
-      box-shadow: 0 3px 6px rgba(0,0,0,0.3);
-    }
-    
+
     /* Loading Spinner */
     #loading-spinner {
       position: absolute;
@@ -170,7 +147,7 @@
       background-color: rgba(0, 0, 0, 0.8);
       z-index: 10;
     }
-    
+
     .spinner {
       border: 5px solid #f3f3f3;
       border-top: 5px solid #3498db;
@@ -179,37 +156,27 @@
       height: 50px;
       animation: spin 1s linear infinite;
     }
-    
-    #loading-spinner p {
-      color: white;
-      margin-top: 15px;
-    }
-    
+
     @keyframes spin {
       0% { transform: rotate(0deg); }
       100% { transform: rotate(360deg); }
     }
-    
-    /* Responsive Adjustments */
-    @media (max-width: 768px) {
-      header {
-        flex-direction: column;
-        gap: 10px;
-        text-align: center;
-        padding: 10px;
+
+    /* Performance & Accessibility Improvements */
+    @media (max-width: 480px) {
+      .nav-button {
+        font-size: 0.7rem;
+        padding: 8px;
+        min-width: auto;
       }
-      
-      .nav-buttons {
-        width: 100%;
-        justify-content: center;
-        flex-wrap: wrap;
-      }
-      .channels-container {
-        gap: 5px;
-      }
+
       .channel-button {
-        font-size: 12px;
-        padding: 8px 10px;
+        font-size: 0.7rem;
+        padding: 8px 12px;
+      }
+
+      header h1 {
+        font-size: 1.2rem;
       }
     }
   </style>
@@ -219,15 +186,19 @@
     <header>
       <h1>CricLK.com</h1>
       <div class="nav-buttons">
-        <a href="/" class="nav-button blue"><i class="fas fa-arrow-left"></i> Back to Home</a>
-        <a href="/timetable" class="nav-button red"><i class="fas fa-calendar-alt"></i> View Time Table</a>
-        <a href="https://t.me/+brkidE7mVbxhMGJl" target="_blank" class="nav-button telegram">
-          <i class="fab fa-telegram"></i> Join Our Telegram
+        <a href="/" class="nav-button" style="background-color: #2980b9;">
+          <i class="fas fa-arrow-left"></i> Home
+        </a>
+        <a href="/timetable" class="nav-button" style="background-color: #c0392b;">
+          <i class="fas fa-calendar-alt"></i> Time Table
+        </a>
+        <a href="https://t.me/+brkidE7mVbxhMGJl" target="_blank" class="nav-button" style="background-color: #0088cc;">
+          <i class="fab fa-telegram"></i> Telegram
         </a>
       </div>
     </header>
 
-    <div class="ipl-banner">
+    <div class="banner ipl-banner">
       IPL 2025 Free - No Ads - Enjoy
     </div>
     
@@ -242,65 +213,49 @@
     </div>
     
     <div class="player-container">
-      <div class="iframe-wrapper">
-        <div id="loading-spinner">
-          <div class="spinner"></div>
-          <p>Loading Live Stream...</p>
-        </div>
-        <iframe 
-          id="playerIframe"
-          src=""
-          allowfullscreen
-          sandbox="allow-scripts allow-same-origin allow-forms allow-presentation"
-        ></iframe>
+      <div id="loading-spinner">
+        <div class="spinner"></div>
       </div>
+      <iframe 
+        id="playerIframe"
+        src=""
+        allowfullscreen
+        sandbox="allow-scripts allow-same-origin allow-forms allow-presentation"
+      ></iframe>
     </div>
 
-    <div class="experience-banner">
+    <div class="banner experience-banner">
       Player එකෙහි Controlls වැඩ නැත්නම් Video එක මැද ඇති <i class="fas fa-times-circle"></i> ක්ලික් කර එය ඉවත් කරන්න.
     </div>
   </div>
+
   <script>
-    // Base64 encoded URL components
     const baseUrlEncoded = "aHR0cHM6Ly9jZG4uY3JpY2hkcGxheXMucnUvZW1iZWQyLnBocD9pZD0=";
     
-    // Decode function
     function decodeBase64(str) {
       return atob(str);
     }
     
-    // Get channel buttons and iframe
     const channelButtons = document.querySelectorAll('.channel-button');
     const playerIframe = document.getElementById('playerIframe');
     const loadingSpinner = document.getElementById('loading-spinner');
     
-    // Function to load a channel
     function loadChannel(channelId) {
-      // Show loading spinner
       loadingSpinner.style.display = 'flex';
       
-      // Construct the URL by decoding the base64 and adding the channel ID
       const url = decodeBase64(baseUrlEncoded) + channelId;
       
-      // Set the iframe src
       playerIframe.src = url;
       
-      // Update active button
       channelButtons.forEach(button => {
-        if (button.getAttribute('data-channel') === channelId) {
-          button.classList.add('active');
-        } else {
-          button.classList.remove('active');
-        }
+        button.classList.toggle('active', button.getAttribute('data-channel') === channelId);
       });
       
-      // Hide spinner when iframe loads
-      playerIframe.onload = function() {
+      playerIframe.onload = () => {
         loadingSpinner.style.display = 'none';
       };
     }
     
-    // Add click event to each button
     channelButtons.forEach(button => {
       button.addEventListener('click', function() {
         const channelId = this.getAttribute('data-channel');
@@ -308,10 +263,7 @@
       });
     });
     
-    // Load the default channel (Star Sports 1)
-    window.onload = function() {
-      loadChannel('starsp');
-    };
+    window.onload = () => loadChannel('starsp');
   </script>
 </body>
 </html>
