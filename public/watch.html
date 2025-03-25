@@ -162,17 +162,48 @@
       100% { transform: rotate(360deg); }
     }
 
-    /* Performance & Accessibility Improvements */
+    /* Desktop: Single row for channels */
+    @media (min-width: 481px) {
+      .channels-container {
+        flex-wrap: nowrap;
+        justify-content: center;
+        overflow-x: auto;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+      }
+
+      .channels-container::-webkit-scrollbar {
+        display: none;
+      }
+
+      .channel-button {
+        flex-shrink: 0;
+      }
+    }
+
+    /* Mobile: Multiple rows (3 per line) with smaller buttons */
     @media (max-width: 480px) {
+      .channels-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 10px;
+        max-height: 200px;
+        overflow-y: auto;
+      }
+
+      .channel-button {
+        flex-basis: calc(33.333% - 10px); /* 3 buttons per row with gap */
+        max-width: calc(33.333% - 10px);
+        font-size: 0.6rem;
+        padding: 8px 10px;
+        text-align: center;
+      }
+
       .nav-button {
         font-size: 0.7rem;
         padding: 8px;
         min-width: auto;
-      }
-
-      .channel-button {
-        font-size: 0.7rem;
-        padding: 8px 12px;
       }
 
       header h1 {
