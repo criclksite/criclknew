@@ -5,23 +5,31 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Watch Live - Cricket Live</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
- <script disable-devtool-auto src="https://cdn.jsdelivr.net/npm/disable-devtool@latest"></script>
   <style>
+    :root {
+      --neon-blue: #00d4ff;
+      --neon-pink: #ff00ea;
+      --neon-green: #00ff8c;
+      --dark-bg: #080818;
+      --darker-bg: #04040a;
+      --card-bg: rgba(20, 20, 45, 0.8);
+    }
+
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      touch-action: manipulation; /* Improve touch responsiveness */
+      touch-action: manipulation;
     }
 
     body, html {
-      height: 95vh;
-      width: 95vw;
+      height: 100vh;
+      width: 100vw;
       overflow: hidden;
-      background-color: #121212;
+      background: linear-gradient(135deg, var(--darker-bg), var(--dark-bg));
       color: white;
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-      overscroll-behavior: none; /* Prevent pull-to-refresh */
+      overscroll-behavior: none;
     }
 
     .container {
@@ -30,25 +38,57 @@
       display: flex;
       flex-direction: column;
       overflow: hidden;
-      padding: 10px;
+      padding: 12px;
+      max-width: 1400px;
+      margin: 0 auto;
     }
 
     header {
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 10px;
-      margin-bottom: 10px;
-      background-color: #1e1e1e;
-      padding: 10px;
-      border-radius: 5px;
+      gap: 12px;
+      margin-bottom: 16px;
+      background-color: var(--card-bg);
+      padding: 16px;
+      border-radius: 12px;
+      box-shadow: 0 0 15px rgba(0, 212, 255, 0.2);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(0, 212, 255, 0.1);
+    }
+
+    header h1 {
+      font-size: 2rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: white;
+      text-shadow: 
+        0 0 5px var(--neon-blue),
+        0 0 10px var(--neon-blue),
+        0 0 20px var(--neon-blue);
+      animation: neonPulse 2s infinite alternate;
+    }
+
+    @keyframes neonPulse {
+      from {
+        text-shadow: 
+          0 0 5px var(--neon-blue),
+          0 0 10px var(--neon-blue);
+      }
+      to {
+        text-shadow: 
+          0 0 5px var(--neon-blue),
+          0 0 10px var(--neon-blue),
+          0 0 20px var(--neon-blue),
+          0 0 30px var(--neon-blue);
+      }
     }
 
     .nav-buttons {
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
-      gap: 10px;
+      gap: 12px;
       width: 100%;
     }
 
@@ -61,23 +101,55 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 5px;
-      padding: 10px;
-      border-radius: 5px;
-      transition: all 0.2s ease;
+      gap: 8px;
+      padding: 12px;
+      border-radius: 8px;
+      transition: all 0.3s ease;
       text-transform: uppercase;
       font-weight: bold;
       font-size: 0.9rem;
+      position: relative;
+      overflow: hidden;
+      z-index: 1;
+      letter-spacing: 1px;
+    }
+
+    .nav-button::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(45deg, rgba(0,0,0,0), rgba(255,255,255,0.1), rgba(0,0,0,0));
+      transform: translateX(-100%);
+      transition: transform 0.6s ease;
+      z-index: -1;
+    }
+
+    .nav-button:hover::before {
+      transform: translateX(100%);
+    }
+
+    .nav-button:active {
+      transform: scale(0.98);
+    }
+
+    .slider-container {
+      position: relative;
+      margin: 16px 0;
     }
 
     .channels-container {
       display: flex;
       overflow-x: auto;
-      gap: 10px;
-      padding: 10px 0;
-      -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+      gap: 12px;
+      padding: 12px 4px;
+      -webkit-overflow-scrolling: touch;
       scrollbar-width: none;
       -ms-overflow-style: none;
+      position: relative;
+      scroll-behavior: smooth;
     }
 
     .channels-container::-webkit-scrollbar {
@@ -86,18 +158,85 @@
 
     .channel-button {
       flex-shrink: 0;
-      padding: 10px 15px;
-      font-size: 0.8rem;
+      padding: 10px 18px;
+      font-size: 0.85rem;
       border: none;
-      border-radius: 5px;
+      border-radius: 8px;
       color: white;
-      background-color: #2980b9;
+      background: rgba(20, 20, 45, 0.7);
       text-transform: uppercase;
       transition: all 0.2s ease;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+      font-weight: 600;
+      letter-spacing: 0.5px;
+    }
+
+    .channel-button::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background: linear-gradient(90deg, var(--neon-blue), var(--neon-pink));
+      transform: scaleX(0);
+      transition: transform 0.3s ease;
+      transform-origin: left;
+    }
+
+    .channel-button:hover::after {
+      transform: scaleX(1);
     }
 
     .channel-button.active {
-      background-color: #27ae60;
+      background: rgba(0, 212, 255, 0.2);
+      box-shadow: 
+        0 0 10px rgba(0, 212, 255, 0.3),
+        0 0 20px rgba(0, 212, 255, 0.2);
+    }
+
+    .channel-button.active::after {
+      transform: scaleX(1);
+      background: linear-gradient(90deg, var(--neon-green), var(--neon-blue));
+      box-shadow: 0 0 10px var(--neon-blue);
+      height: 3px;
+    }
+
+    .slider-button {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(0, 0, 0, 0.4);
+      color: white;
+      border: none;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      z-index: 5;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      backdrop-filter: blur(5px);
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    }
+
+    .slider-button:hover {
+      background: rgba(0, 212, 255, 0.3);
+      box-shadow: 0 0 15px rgba(0, 212, 255, 0.5);
+    }
+
+    .slider-button.prev {
+      left: 0;
+    }
+
+    .slider-button.next {
+      right: 0;
     }
 
     .player-container {
@@ -106,6 +245,11 @@
       width: 100%;
       background-color: #000;
       margin: 10px 0;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 
+        0 0 20px rgba(0, 0, 0, 0.5),
+        0 0 30px rgba(0, 0, 0, 0.3);
     }
 
     #playerIframe {
@@ -117,24 +261,38 @@
 
     .banner {
       text-align: center;
-      padding: 10px;
-      margin: 5px 0;
-      border-radius: 5px;
-      font-weight: bold;
+      padding: 12px;
+      margin: 12px 0;
+      border-radius: 8px;
+      font-weight: 500;
       font-size: 0.9rem;
-      animation: pulse 2s infinite;
+      position: relative;
+      overflow: hidden;
+      background: var(--card-bg);
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.05);
     }
 
-    .ipl-banner { background-color: #e74c3c; }
-    .experience-banner { background-color: #3498db; }
-    .experience-banner2 { background-color: #121212; }
-
-    @keyframes pulse {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.05); }
+    .ipl-banner {
+      background: linear-gradient(45deg, rgba(231, 76, 60, 0.8), rgba(192, 57, 43, 0.8));
+      border-left: 4px solid #e74c3c;
     }
 
-    /* Loading Spinner */
+    .experience-banner {
+      background: linear-gradient(45deg, rgba(41, 128, 185, 0.5), rgba(52, 152, 219, 0.5));
+      border-left: 4px solid #3498db;
+    }
+
+    .experience-banner i {
+      color: var(--neon-pink);
+      animation: blink 2s infinite;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+
     #loading-spinner {
       position: absolute;
       top: 0;
@@ -147,68 +305,127 @@
       align-items: center;
       background-color: rgba(0, 0, 0, 0.8);
       z-index: 10;
+      backdrop-filter: blur(5px);
     }
 
     .spinner {
-      border: 5px solid #f3f3f3;
-      border-top: 5px solid #3498db;
-      border-radius: 50%;
-      width: 50px;
-      height: 50px;
-      animation: spin 1s linear infinite;
+      width: 60px;
+      height: 60px;
+      position: relative;
     }
 
-    @keyframes spin {
+    .spinner::before,
+    .spinner::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      border: 4px solid transparent;
+      border-top-color: var(--neon-blue);
+      border-bottom-color: var(--neon-pink);
+      animation: spinnerAnimation 1.5s linear infinite;
+    }
+
+    .spinner::before {
+      z-index: 100;
+    }
+
+    .spinner::after {
+      border: 4px solid transparent;
+      border-left-color: var(--neon-green);
+      border-right-color: var(--neon-green);
+      animation: spinnerAnimation 1s linear infinite reverse;
+    }
+
+    @keyframes spinnerAnimation {
       0% { transform: rotate(0deg); }
       100% { transform: rotate(360deg); }
     }
 
-    /* Desktop: Single row for channels */
-    @media (min-width: 481px) {
+    .loading-text {
+      margin-top: 20px;
+      font-size: 1rem;
+      letter-spacing: 2px;
+      color: white;
+      text-shadow: 0 0 10px var(--neon-blue);
+      animation: pulse 1.5s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 0.7; transform: scale(1); }
+      50% { opacity: 1; transform: scale(1.05); }
+    }
+
+    /* Desktop styles */
+    @media (min-width: 768px) {
+      .container {
+        padding: 20px;
+      }
+      
+      header {
+        flex-direction: row;
+        justify-content: space-between;
+        padding: 20px 30px;
+      }
+      
+      .nav-buttons {
+        width: auto;
+      }
+      
       .channels-container {
-        flex-wrap: nowrap;
-        justify-content: center;
-        overflow-x: auto;
-        scrollbar-width: none;
-        -ms-overflow-style: none;
+        padding: 16px 40px;
       }
-
-      .channels-container::-webkit-scrollbar {
-        display: none;
-      }
-
+      
       .channel-button {
-        flex-shrink: 0;
+        padding: 12px 24px;
+        font-size: 0.9rem;
+      }
+      
+      .player-container {
+        height: 70vh;
+        margin: 20px 0;
       }
     }
 
-    /* Mobile: Multiple rows (3 per line) with smaller buttons */
-    @media (max-width: 480px) {
+    /* Mobile styles */
+    @media (max-width: 767px) {
+      header h1 {
+        font-size: 1.5rem;
+      }
+      
+      .nav-button {
+        font-size: 0.75rem;
+        padding: 10px;
+      }
+      
+      .channel-button {
+        font-size: 0.7rem;
+        padding: 8px 14px;
+      }
+      
       .channels-container {
-        display: flex;
         flex-wrap: wrap;
         justify-content: center;
-        gap: 10px;
-        max-height: 200px;
+        max-height: 160px;
         overflow-y: auto;
       }
-
-      .channel-button {
-        flex-basis: calc(33.333% - 10px); /* 3 buttons per row with gap */
-        max-width: calc(33.333% - 10px);
-        font-size: 0.6rem;
-        padding: 8px 10px;
-        text-align: center;
+      
+      .player-container {
+        height: 50vh;
       }
-
-      .nav-button {
-        font-size: 0.7rem;
-        padding: 8px;
-        min-width: auto;
+      
+      .slider-button {
+        width: 30px;
+        height: 30px;
+        font-size: 0.8rem;
       }
-
-      header h1 {
-        font-size: 1.2rem;
+      
+      .banner {
+        font-size: 0.8rem;
+        padding: 10px;
       }
     }
   </style>
@@ -218,34 +435,41 @@
     <header>
       <h1>CricLK.com</h1>
       <div class="nav-buttons">
-        <a href="/" class="nav-button" style="background-color: #2980b9;">
+        <a href="/" class="nav-button" style="background: linear-gradient(45deg, #2980b9, #3498db);">
           <i class="fas fa-arrow-left"></i> Home
         </a>
-        <a href="/timetable" class="nav-button" style="background-color: #c0392b;">
+        <a href="/timetable" class="nav-button" style="background: linear-gradient(45deg, #c0392b, #e74c3c);">
           <i class="fas fa-calendar-alt"></i> Time Table
         </a>
-        <a href="https://t.me/+brkidE7mVbxhMGJl" target="_blank" class="nav-button" style="background-color: #0088cc;">
+        <a href="https://t.me/+brkidE7mVbxhMGJl" target="_blank" class="nav-button" style="background: linear-gradient(45deg, #006bb3, #0088cc);">
           <i class="fab fa-telegram"></i> Telegram
         </a>
       </div>
     </header>
 
-            <div class="channels-container">
-      <button class="channel-button" data-channel="willow">Willow Cricket</button>
-      <button class="channel-button" data-channel="willowextra">Willow Xtra</button>
-      <button class="channel-button" data-channel="astrocric">Astro Cricket</button>
-      <button class="channel-button active" data-channel="starsp">Star Sports 1</button>
-      <button class="channel-button" data-channel="starsp2">Star Sports 2</button>
-      <button class="channel-button" data-channel="skysp2">Sky Sports</button>
+    <div class="slider-container">
+      <button class="slider-button prev"><i class="fas fa-chevron-left"></i></button>
+      <div class="channels-container">
+        <button class="channel-button" data-channel="willow">Willow Cricket</button>
+        <button class="channel-button" data-channel="willowextra">Willow Xtra</button>
+        <button class="channel-button" data-channel="astrocric">Astro Cricket</button>
+        <button class="channel-button active" data-channel="starsp">Star Sports 1</button>
+        <button class="channel-button" data-channel="starsp2">Star Sports 2</button>
+        <button class="channel-button" data-channel="skysp2">Sky Sports</button>
+        <button class="channel-button" data-channel="tenten">Ten Sports</button>
+        <button class="channel-button" data-channel="sony1">Sony Six</button>
+      </div>
+      <button class="slider-button next"><i class="fas fa-chevron-right"></i></button>
     </div>
 
-     <div class="banner experience-banner">
+    <div class="banner experience-banner">
       Player එකෙහි Sounds වැඩ නැත්නම් Video එක මැද ඇති <i class="fas fa-times-circle"></i> ක්ලික් කර ඉන්පසු වම්පස උඩින් ඇති [CLICK HERE TO UNMUTE] එක උඩ ක්ලික් කරන 
     </div>
     
     <div class="player-container">
       <div id="loading-spinner">
         <div class="spinner"></div>
+        <div class="loading-text">LOADING STREAM...</div>
       </div>
       <iframe 
         id="playerIframe"
@@ -254,15 +478,7 @@
         sandbox="allow-scripts allow-same-origin allow-forms allow-presentation"
       ></iframe>
     </div>
-    
-
-
- <div class="banner experience-banner2">
-   
-    </div>
-    
   </div>
-
 
   <script>
     const baseUrlEncoded = "aHR0cHM6Ly9jZG4uY3JpY2hkcGxheXMucnUvZW1iZWQyLnBocD9pZD0=";
@@ -274,6 +490,9 @@
     const channelButtons = document.querySelectorAll('.channel-button');
     const playerIframe = document.getElementById('playerIframe');
     const loadingSpinner = document.getElementById('loading-spinner');
+    const channelsContainer = document.querySelector('.channels-container');
+    const prevButton = document.querySelector('.slider-button.prev');
+    const nextButton = document.querySelector('.slider-button.next');
     
     function loadChannel(channelId) {
       loadingSpinner.style.display = 'flex';
@@ -287,7 +506,10 @@
       });
       
       playerIframe.onload = () => {
-        loadingSpinner.style.display = 'none';
+        // Add a slight delay to make the loading effect more noticeable
+        setTimeout(() => {
+          loadingSpinner.style.display = 'none';
+        }, 800);
       };
     }
     
@@ -298,7 +520,57 @@
       });
     });
     
-    window.onload = () => loadChannel('starsp');
+    // Channel slider navigation
+    prevButton.addEventListener('click', () => {
+      channelsContainer.scrollBy({ left: -200, behavior: 'smooth' });
+    });
+    
+    nextButton.addEventListener('click', () => {
+      channelsContainer.scrollBy({ left: 200, behavior: 'smooth' });
+    });
+    
+    // Add touch swipe for mobile
+    let touchStartX = 0;
+    let touchEndX = 0;
+    
+    channelsContainer.addEventListener('touchstart', e => {
+      touchStartX = e.changedTouches[0].screenX;
+    }, false);
+    
+    channelsContainer.addEventListener('touchend', e => {
+      touchEndX = e.changedTouches[0].screenX;
+      handleSwipe();
+    }, false);
+    
+    function handleSwipe() {
+      if (touchEndX < touchStartX) {
+        // Swipe left
+        channelsContainer.scrollBy({ left: 150, behavior: 'smooth' });
+      }
+      if (touchEndX > touchStartX) {
+        // Swipe right
+        channelsContainer.scrollBy({ left: -150, behavior: 'smooth' });
+      }
+    }
+    
+    // Check if slider buttons should be visible (only on desktop)
+    function checkSliderButtons() {
+      if (window.innerWidth < 768) {
+        prevButton.style.display = 'none';
+        nextButton.style.display = 'none';
+      } else {
+        prevButton.style.display = 'flex';
+        nextButton.style.display = 'flex';
+      }
+    }
+    
+    window.addEventListener('resize', checkSliderButtons);
+    
+    // Initialize
+    window.onload = () => {
+      loadChannel('starsp');
+      checkSliderButtons();
+    };
   </script>
 </body>
 </html>
