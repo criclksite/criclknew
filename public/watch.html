@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Watch Live - Cricket Live</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
+  <script disable-devtool-auto src="https://cdn.jsdelivr.net/npm/disable-devtool@latest"></script>
   <style>
     :root {
       --neon-blue: #00d4ff;
@@ -23,8 +24,8 @@
     }
 
     body, html {
-      height: 95vh;
-      width: 97vw;
+      height: 100vh;
+      width: 100vw;
       overflow: hidden;
       background: linear-gradient(135deg, var(--darker-bg), var(--dark-bg));
       color: white;
@@ -38,27 +39,23 @@
       display: flex;
       flex-direction: column;
       overflow: hidden;
-      padding: 12px;
-      max-width: 1400px;
       margin: 0 auto;
     }
 
     header {
       display: flex;
-      flex-direction: column;
+      justify-content: space-between;
       align-items: center;
-      gap: 12px;
-      margin-bottom: 16px;
+      padding: 10px 16px;
       background-color: var(--card-bg);
-      padding: 16px;
-      border-radius: 12px;
       box-shadow: 0 0 15px rgba(0, 212, 255, 0.2);
       backdrop-filter: blur(10px);
-      border: 1px solid rgba(0, 212, 255, 0.1);
+      border-bottom: 1px solid rgba(0, 212, 255, 0.1);
+      z-index: 10;
     }
 
     header h1 {
-      font-size: 2rem;
+      font-size: 1.5rem;
       text-transform: uppercase;
       letter-spacing: 2px;
       color: white;
@@ -86,15 +83,11 @@
 
     .nav-buttons {
       display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
+      justify-content: flex-end;
       gap: 12px;
-      width: 100%;
     }
 
     .nav-button {
-      flex: 1;
-      min-width: 100px;
       text-align: center;
       color: white;
       text-decoration: none;
@@ -102,12 +95,12 @@
       align-items: center;
       justify-content: center;
       gap: 8px;
-      padding: 12px;
+      padding: 8px 12px;
       border-radius: 8px;
       transition: all 0.3s ease;
       text-transform: uppercase;
       font-weight: bold;
-      font-size: 0.9rem;
+      font-size: 0.8rem;
       position: relative;
       overflow: hidden;
       z-index: 1;
@@ -135,162 +128,19 @@
       transform: scale(0.98);
     }
 
-    .slider-container {
-      position: relative;
-      margin: 16px 0;
-    }
-
-    .channels-container {
-      display: flex;
-      overflow-x: auto;
-      gap: 12px;
-      padding: 12px 4px;
-      -webkit-overflow-scrolling: touch;
-      scrollbar-width: none;
-      -ms-overflow-style: none;
-      position: relative;
-      scroll-behavior: smooth;
-    }
-
-    .channels-container::-webkit-scrollbar {
-      display: none;
-    }
-
-    .channel-button {
-      flex-shrink: 0;
-      padding: 10px 18px;
-      font-size: 0.85rem;
-      border: none;
-      border-radius: 8px;
-      color: white;
-      background: rgba(20, 20, 45, 0.7);
-      text-transform: uppercase;
-      transition: all 0.2s ease;
-      cursor: pointer;
-      position: relative;
-      overflow: hidden;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-      font-weight: 600;
-      letter-spacing: 0.5px;
-    }
-
-    .channel-button::after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      height: 3px;
-      background: linear-gradient(90deg, var(--neon-blue), var(--neon-pink));
-      transform: scaleX(0);
-      transition: transform 0.3s ease;
-      transform-origin: left;
-    }
-
-    .channel-button:hover::after {
-      transform: scaleX(1);
-    }
-
-    .channel-button.active {
-      background: rgba(0, 212, 255, 0.2);
-      box-shadow: 
-        0 0 10px rgba(0, 212, 255, 0.3),
-        0 0 20px rgba(0, 212, 255, 0.2);
-    }
-
-    .channel-button.active::after {
-      transform: scaleX(1);
-      background: linear-gradient(90deg, var(--neon-green), var(--neon-blue));
-      box-shadow: 0 0 10px var(--neon-blue);
-      height: 3px;
-    }
-
-    .slider-button {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      background: rgba(0, 0, 0, 0.4);
-      color: white;
-      border: none;
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1rem;
-      z-index: 5;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      backdrop-filter: blur(5px);
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-    }
-
-    .slider-button:hover {
-      background: rgba(0, 212, 255, 0.3);
-      box-shadow: 0 0 15px rgba(0, 212, 255, 0.5);
-    }
-
-    .slider-button.prev {
-      left: 0;
-    }
-
-    .slider-button.next {
-      right: 0;
-    }
-
     .player-container {
       flex-grow: 1;
       position: relative;
       width: 100%;
+      height: calc(100vh - 60px);
       background-color: #000;
-      margin: 10px 0;
-      border-radius: 12px;
       overflow: hidden;
-      box-shadow: 
-        0 0 20px rgba(0, 0, 0, 0.5),
-        0 0 30px rgba(0, 0, 0, 0.3);
     }
 
     #playerIframe {
       width: 100%;
       height: 100%;
       border: none;
-      object-fit: contain;
-    }
-
-    .banner {
-      text-align: center;
-      padding: 12px;
-      margin: 12px 0;
-      border-radius: 8px;
-      font-weight: 500;
-      font-size: 0.9rem;
-      position: relative;
-      overflow: hidden;
-      background: var(--card-bg);
-      box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
-      border: 1px solid rgba(255, 255, 255, 0.05);
-    }
-
-    .ipl-banner {
-      background: linear-gradient(45deg, rgba(231, 76, 60, 0.8), rgba(192, 57, 43, 0.8));
-      border-left: 4px solid #e74c3c;
-    }
-
-    .experience-banner {
-      background: linear-gradient(45deg, rgba(41, 128, 185, 0.5), rgba(52, 152, 219, 0.5));
-      border-left: 4px solid #3498db;
-    }
-
-    .experience-banner i {
-      color: var(--neon-pink);
-      animation: blink 2s infinite;
-    }
-
-    @keyframes blink {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.5; }
     }
 
     #loading-spinner {
@@ -359,73 +209,15 @@
       50% { opacity: 1; transform: scale(1.05); }
     }
 
-    /* Desktop styles */
-    @media (min-width: 768px) {
-      .container {
-        padding: 20px;
-      }
-      
-      header {
-        flex-direction: row;
-        justify-content: space-between;
-        padding: 20px 30px;
-      }
-      
-      .nav-buttons {
-        width: auto;
-      }
-      
-      .channels-container {
-        padding: 16px 40px;
-      }
-      
-      .channel-button {
-        padding: 12px 24px;
-        font-size: 0.9rem;
-      }
-      
-      .player-container {
-        height: 70vh;
-        margin: 20px 0;
-      }
-    }
-
     /* Mobile styles */
     @media (max-width: 767px) {
       header h1 {
-        font-size: 1.5rem;
+        font-size: 1.2rem;
       }
       
       .nav-button {
-        font-size: 0.75rem;
-        padding: 10px;
-      }
-      
-      .channel-button {
         font-size: 0.7rem;
-        padding: 8px 14px;
-      }
-      
-      .channels-container {
-        flex-wrap: wrap;
-        justify-content: center;
-        max-height: 160px;
-        overflow-y: auto;
-      }
-      
-      .player-container {
-        height: 50vh;
-      }
-      
-      .slider-button {
-        width: 30px;
-        height: 30px;
-        font-size: 0.8rem;
-      }
-      
-      .banner {
-        font-size: 0.8rem;
-        padding: 10px;
+        padding: 6px 10px;
       }
     }
   </style>
@@ -438,139 +230,69 @@
         <a href="/" class="nav-button" style="background: linear-gradient(45deg, #2980b9, #3498db);">
           <i class="fas fa-arrow-left"></i> Home
         </a>
-        <a href="/timetable" class="nav-button" style="background: linear-gradient(45deg, #c0392b, #e74c3c);">
-          <i class="fas fa-calendar-alt"></i> Time Table
-        </a>
         <a href="https://t.me/+brkidE7mVbxhMGJl" target="_blank" class="nav-button" style="background: linear-gradient(45deg, #006bb3, #0088cc);">
           <i class="fab fa-telegram"></i> Telegram
         </a>
       </div>
     </header>
-
-    <div class="slider-container">
-      <button class="slider-button prev"><i class="fas fa-chevron-left"></i></button>
-      <div class="channels-container">
-        <button class="channel-button" data-channel="willow">Willow Cricket</button>
-        <button class="channel-button" data-channel="willowextra">Willow Xtra</button>
-        <button class="channel-button" data-channel="astrocric">Astro Cricket</button>
-        <button class="channel-button active" data-channel="starsp">Star Sports 1</button>
-        <button class="channel-button" data-channel="starsp2">Star Sports 2</button>
-        <button class="channel-button" data-channel="skysp2">Sky Sports</button>
-        <button class="channel-button" data-channel="tenten">Ten Sports</button>
-        <button class="channel-button" data-channel="sony1">Sony Six</button>
-      </div>
-      <button class="slider-button next"><i class="fas fa-chevron-right"></i></button>
-    </div>
-
-    <div class="banner experience-banner">
-      Player එකෙහි Sounds වැඩ නැත්නම් Video එක මැද ඇති <i class="fas fa-times-circle"></i> ක්ලික් කර ඉන්පසු වම්පස උඩින් ඇති [CLICK HERE TO UNMUTE] එක උඩ ක්ලික් කරන 
-    </div>
     
     <div class="player-container">
       <div id="loading-spinner">
         <div class="spinner"></div>
         <div class="loading-text">LOADING STREAM...</div>
       </div>
+      <!-- Player iframe with no source - will be set dynamically -->
       <iframe 
         id="playerIframe"
         src=""
         allowfullscreen
-        sandbox="allow-scripts allow-same-origin allow-forms allow-presentation"
+        allow="autoplay"
+        sandbox="allow-scripts allow-same-origin allow-forms allow-presentation allow-same-origin"
       ></iframe>
     </div>
   </div>
 
   <script>
-    const baseUrlEncoded = "aHR0cHM6Ly9jZG4uY3JpY2hkcGxheXMucnUvZW1iZWQyLnBocD9pZD0=";
+    // URL components split and obfuscated
+    const p1 = "aHR0cHM6Ly9p"; 
+    const p2 = "bnNpZGVybGl2ZS5w"; 
+    const p3 = "YWdlcy5kZXYvVFNwb3J0cy8="; 
     
-    function decodeBase64(str) {
+    function decodeString(str) {
       return atob(str);
     }
     
-    const channelButtons = document.querySelectorAll('.channel-button');
     const playerIframe = document.getElementById('playerIframe');
     const loadingSpinner = document.getElementById('loading-spinner');
-    const channelsContainer = document.querySelector('.channels-container');
-    const prevButton = document.querySelector('.slider-button.prev');
-    const nextButton = document.querySelector('.slider-button.next');
     
-    function loadChannel(channelId) {
-      loadingSpinner.style.display = 'flex';
-      
-      const url = decodeBase64(baseUrlEncoded) + channelId;
-      
-      playerIframe.src = url;
-      
-      channelButtons.forEach(button => {
-        button.classList.toggle('active', button.getAttribute('data-channel') === channelId);
-      });
-      
-      playerIframe.onload = () => {
-        // Add a slight delay to make the loading effect more noticeable
-        setTimeout(() => {
-          loadingSpinner.style.display = 'none';
-        }, 800);
-      };
+    // Function to set player source
+    function setPlayerSource() {
+      // Combine and decode the URL parts
+      const streamUrl = decodeString(p1) + decodeString(p2) + decodeString(p3);
+      playerIframe.src = streamUrl;
     }
     
-    channelButtons.forEach(button => {
-      button.addEventListener('click', function() {
-        const channelId = this.getAttribute('data-channel');
-        loadChannel(channelId);
-      });
-    });
-    
-    // Channel slider navigation
-    prevButton.addEventListener('click', () => {
-      channelsContainer.scrollBy({ left: -200, behavior: 'smooth' });
-    });
-    
-    nextButton.addEventListener('click', () => {
-      channelsContainer.scrollBy({ left: 200, behavior: 'smooth' });
-    });
-    
-    // Add touch swipe for mobile
-    let touchStartX = 0;
-    let touchEndX = 0;
-    
-    channelsContainer.addEventListener('touchstart', e => {
-      touchStartX = e.changedTouches[0].screenX;
-    }, false);
-    
-    channelsContainer.addEventListener('touchend', e => {
-      touchEndX = e.changedTouches[0].screenX;
-      handleSwipe();
-    }, false);
-    
-    function handleSwipe() {
-      if (touchEndX < touchStartX) {
-        // Swipe left
-        channelsContainer.scrollBy({ left: 150, behavior: 'smooth' });
-      }
-      if (touchEndX > touchStartX) {
-        // Swipe right
-        channelsContainer.scrollBy({ left: -150, behavior: 'smooth' });
-      }
-    }
-    
-    // Check if slider buttons should be visible (only on desktop)
-    function checkSliderButtons() {
-      if (window.innerWidth < 768) {
-        prevButton.style.display = 'none';
-        nextButton.style.display = 'none';
-      } else {
-        prevButton.style.display = 'flex';
-        nextButton.style.display = 'flex';
-      }
-    }
-    
-    window.addEventListener('resize', checkSliderButtons);
+    // Hide loading spinner after iframe loads
+    playerIframe.onload = () => {
+      // Add a slight delay to make the loading effect more noticeable
+      setTimeout(() => {
+        loadingSpinner.style.display = 'none';
+      }, 800);
+    };
     
     // Initialize
     window.onload = () => {
-      loadChannel('starsp');
-      checkSliderButtons();
+      // Set the player source
+      setPlayerSource();
+      
+      // Make sure iframe is properly sized
+      playerIframe.style.height = `${window.innerHeight - 60}px`;
     };
+    
+    // Resize handler
+    window.addEventListener('resize', () => {
+      playerIframe.style.height = `${window.innerHeight - 60}px`;
+    });
   </script>
 </body>
 </html>
