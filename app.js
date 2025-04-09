@@ -1,8 +1,15 @@
 // app.js - Main application file
 const express = require('express');
 const path = require('path');
+const crypto = require('crypto');
 const app = express();
 const PORT = process.env.PORT || 3000;
+
+// Store stream URL securely on server side
+const STREAM_URL = 'https://ams.sandbrix.live/LiveApp/streams/vC19gZapiqRVC2ry35467275934172.m3u8';
+
+// Secret key for token validation (should be stored in environment variables in production)
+const SECRET_KEY = process.env.SECRET_KEY || 'your-secure-secret-key-change-this';
 
 // Serve static files
 app.use(express.static(path.join(__dirname, 'public')));
@@ -12,9 +19,45 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-// Watch Live route
+// Watch Live route - generates a token and redirects to watch page
 app.get('/watch', (req, res) => {
+  const timestamp = Date.now();
+  const sessionToken = crypto.createHash('md5')
+    .update(`${timestamp}-${SECRET_KEY}`)
+    .digest('hex');
+    
+  res.redirect(`/watch-stream?token=${sessionToken}&t=${timestamp}`);
+});
+
+// Actual watch page with the video player
+app.get('/watch-stream', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'watch.html'));
+});
+
+// Simple API endpoint to get the stream URL with token validation
+app.get('/api/stream-url', (req, res) => {
+  const { token, t } = req.query;
+  
+  if (!token || !t) {
+    return res.status(403).json({ error: 'Missing parameters' });
+  }
+  
+  // Validate the token
+  const expectedToken = crypto.createHash('md5')
+    .update(`${t}-${SECRET_KEY}`)
+    .digest('hex');
+    
+  // Check if token is valid and not expired (valid for 6 hours)
+  const currentTime = Date.now();
+  const tokenTime = parseInt(t, 10);
+  const tokenExpiration = 6 * 60 * 60 * 1000; // 6 hours in milliseconds
+  
+  if (token !== expectedToken || currentTime - tokenTime > tokenExpiration) {
+    return res.status(403).json({ error: 'Invalid or expired token' });
+  }
+  
+  // Return the stream URL directly - it's still protected by the token authentication
+  res.json({ streamUrl: STREAM_URL });
 });
 
 // Time Table route
