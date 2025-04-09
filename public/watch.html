@@ -4,8 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>CricLK.com - Live Cricket Streaming</title>
-      <script disable-devtool-auto src="https://cdn.jsdelivr.net/npm/disable-devtool@latest"></script>
   <!-- Load HLS.js from CDN -->
+      <script disable-devtool-auto src="https://cdn.jsdelivr.net/npm/disable-devtool@latest"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/hls.js/1.4.10/hls.min.js"></script>
   <style>
     /* Reset and Base Styles */
@@ -134,6 +134,7 @@
       width: 100%;
       background-color: #000;
       display: block;
+      aspect-ratio: 16/9;
     }
     
     /* Responsive Design */
@@ -182,13 +183,49 @@
   </div>
 
   <script>
-    // The exact stream URL you provided
-    const streamUrl = 'https://ams.sandbrix.live/LiveApp/streams/vC19gZapiqRVC2ry35467275934172.m3u8';
     const video = document.getElementById('video');
     const statusElement = document.getElementById('status');
     
-    function initPlayer() {
-      // First try with hls.js
+    // Get URL parameters
+    const urlParams = new URLSearchParams(window.location.search);
+    const token = urlParams.get('token');
+    const timestamp = urlParams.get('t');
+    
+    // Check if we have valid parameters
+    if (!token || !timestamp) {
+      statusElement.textContent = "Invalid access";
+      statusElement.style.backgroundColor = "#ef4444";
+    } else {
+      // Fetch stream URL from server with token authentication
+      fetchStreamUrl();
+    }
+    
+    async function fetchStreamUrl() {
+      try {
+        statusElement.textContent = "Authenticating...";
+        
+        // Request the stream URL from the server with token validation
+        const response = await fetch(`/api/stream-url?token=${token}&t=${timestamp}`);
+        
+        if (!response.ok) {
+          throw new Error('Authentication failed');
+        }
+        
+        const data = await response.json();
+        
+        // Initialize player with the stream URL
+        initPlayer(data.streamUrl);
+      } catch (error) {
+        console.error('Error fetching stream URL:', error);
+        statusElement.textContent = "Authentication failed";
+        statusElement.style.backgroundColor = "#ef4444";
+      }
+    }
+    
+    function initPlayer(streamUrl) {
+      statusElement.textContent = "Loading stream...";
+      
+      // Initialize player with HLS.js if supported
       if (Hls.isSupported()) {
         const hls = new Hls({
           maxBufferLength: 30,
@@ -196,8 +233,6 @@
           maxBufferSize: 60 * 1000 * 1000,
           maxBufferHole: 0.5
         });
-        
-        statusElement.textContent = "Loading stream...";
         
         hls.attachMedia(video);
         hls.loadSource(streamUrl);
@@ -231,8 +266,8 @@
                 statusElement.style.backgroundColor = "#ef4444";
                 hls.destroy();
                 
-                // Try to load with Player.io as a fallback
-                tryPlayerIo();
+                // Try with native HLS support as fallback
+                tryNativeHLS(streamUrl);
                 break;
             }
           }
@@ -240,49 +275,34 @@
         
         window.hls = hls; // For debugging
       } 
-      // For Safari and iOS
-      else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+      // For Safari and iOS (native HLS support)
+      else {
+        tryNativeHLS(streamUrl);
+      }
+    }
+    
+    // Try to play using native HLS support (for Safari/iOS)
+    function tryNativeHLS(streamUrl) {
+      if (video.canPlayType('application/vnd.apple.mpegurl')) {
         video.src = streamUrl;
         video.addEventListener('loadedmetadata', function() {
           statusElement.textContent = "Live";
           statusElement.style.backgroundColor = "#10b981";
-          video.play();
+          video.play()
+            .catch(e => {
+              statusElement.textContent = "Click to play";
+              console.warn('Autoplay was prevented:', e);
+            });
         });
         video.addEventListener('error', function() {
           statusElement.textContent = "Stream error";
           statusElement.style.backgroundColor = "#ef4444";
-          
-          // Try to load with Player.io as a fallback
-          tryPlayerIo();
         });
-      } 
-      else {
+      } else {
         statusElement.textContent = "Browser not supported";
         statusElement.style.backgroundColor = "#ef4444";
-        
-        // Try to load with Player.io as a fallback
-        tryPlayerIo();
       }
     }
-
-    // Function to try loading with Player.io as a fallback
-    function tryPlayerIo() {
-      // This is a placeholder for integrating Player.io
-      // You would need to include their script and implement according to their API
-      console.log("Attempting to load with Player.io as fallback");
-      
-      // Example (pseudocode):
-      // loadPlayerIoScript()
-      //   .then(() => {
-      //     const playerIo = new PlayerIO({
-      //       url: streamUrl,
-      //       container: video.parentElement
-      //     });
-      //   });
-    }
-
-    // Initialize when the DOM is ready
-    document.addEventListener('DOMContentLoaded', initPlayer);
   </script>
 </body>
 </html>
