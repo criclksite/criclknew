@@ -6,7 +6,9 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // Store stream URL securely on server side
-const STREAM_URL = 'https://ams.sandbrix.live/LiveApp/streams/vC19gZapiqRVC2ry35467275934172.m3u8';
+// sandbix const STREAM_URL = 'https://ams.sandbrix.live/LiveApp/streams/vC19gZapiqRVC2ry35467275934172.m3u8';
+// Tsport
+const STREAM_URL = 'https://live-test.tsports.com/live-02/master_1080.m3u8?hdntl=Expires=1744293989~_GO=Generated~URLPrefix=aHR0cHM6Ly9saXZlLXRlc3QudHNwb3J0cy5jb20v~Signature=AVTZpUuvMAO0jMjVeCqYzxZGHNJAbHTlTRUDnSB_tOogMNAb2O8PbntNmK9b6Bd7nzjkrPaWLsrB8rPMt6J0MsbpBlAM';
 
 // Secret key for token validation (should be stored in environment variables in production)
 const SECRET_KEY = process.env.SECRET_KEY || 'your-secure-secret-key-change-this';
