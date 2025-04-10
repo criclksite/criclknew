@@ -13,7 +13,7 @@ const PORT = process.env.PORT || 3000;
 //chttps://003.fclplayer.net/live/csstream1/chunklist.m3u8?vidictid=201886909031&id=1001&pk=b1f3e63c5bb79b8bef6fe4b35c7d59b01ab29937fa20606825cebb7c2fdb3b43';
 
 //https://eplayhd.com/live/tsports/
-const STREAM_URL = 'https://live.tsports.com/mobile_hls/tsports_live_2/playlist.m3u8'
+const STREAM_URL = 'https://live.tsports.com/?bitrate=1024000&channel=tsports_live_2_720&res=720'
 // Secret key for token validation (should be stored in environment variables in production)
 const SECRET_KEY = process.env.SECRET_KEY || 'your-secure-secret-key-change-this';
 
