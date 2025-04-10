@@ -10,7 +10,10 @@ const PORT = process.env.PORT || 3000;
 // Tsport
 // const STREAM_URL = 'https://live-test.tsports.com/live-02/master_1080.m3u8?hdntl=Expires=1744293989~_GO=Generated~URLPrefix=aHR0cHM6Ly9saXZlLXRlc3QudHNwb3J0cy5jb20v~Signature=AVTZpUuvMAO0jMjVeCqYzxZGHNJAbHTlTRUDnSB_tOogMNAb2O8PbntNmK9b6Bd7nzjkrPaWLsrB8rPMt6J0MsbpBlAM';
 // smartcric.ch 
-const STREAM_URL = 'https://003.fclplayer.net/live/csstream1/chunklist.m3u8?vidictid=201886909031&id=1001&pk=b1f3e63c5bb79b8bef6fe4b35c7d59b01ab29937fa20606825cebb7c2fdb3b43';
+//chttps://003.fclplayer.net/live/csstream1/chunklist.m3u8?vidictid=201886909031&id=1001&pk=b1f3e63c5bb79b8bef6fe4b35c7d59b01ab29937fa20606825cebb7c2fdb3b43';
+
+//https://eplayhd.com/live/tsports/
+const STREAM_URL = 'https://live.tsports.com/mobile_hls/tsports_live_2/playlist.m3u8'
 // Secret key for token validation (should be stored in environment variables in production)
 const SECRET_KEY = process.env.SECRET_KEY || 'your-secure-secret-key-change-this';
 
