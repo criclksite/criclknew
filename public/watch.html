@@ -238,7 +238,7 @@
         hls.loadSource(streamUrl);
         
         hls.on(Hls.Events.MANIFEST_PARSED, function() {
-          statusElement.textContent = "Check Timetable for Next Match Details";
+          statusElement.textContent = "Playing Now";
           statusElement.style.backgroundColor = "#10b981";
           video.play()
             .catch(e => {
@@ -286,7 +286,7 @@
       if (video.canPlayType('application/vnd.apple.mpegurl')) {
         video.src = streamUrl;
         video.addEventListener('loadedmetadata', function() {
-          statusElement.textContent = "Check Timetable for Next Match Details";
+          statusElement.textContent = "Playing Now";
           statusElement.style.backgroundColor = "#10b981";
           video.play()
             .catch(e => {
